@@ -35,6 +35,10 @@ namespace InventoryManagementSystem.Infrastructure.Persistence
 
         public DbSet<TodoList> TodoLists { get; set; }
 
+        public DbSet<PersonItem> PersonItems { get; set; }
+
+        public DbSet<CategoryItem> CategoryItems { get; set; }
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             foreach (var entry in ChangeTracker.Entries<AuditableEntity>())

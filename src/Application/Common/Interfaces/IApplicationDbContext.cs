@@ -11,6 +11,10 @@ namespace InventoryManagementSystem.Application.Common.Interfaces
 
         DbSet<TodoItem> TodoItems { get; set; }
 
+        DbSet<PersonItem> PersonItems { get; set; }
+
+        DbSet<CategoryItem> CategoryItems { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
