@@ -15,6 +15,8 @@ namespace InventoryManagementSystem.Application.Common.Interfaces
 
         DbSet<CategoryItem> CategoryItems { get; set; }
 
+        DbSet<Item> Items { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
