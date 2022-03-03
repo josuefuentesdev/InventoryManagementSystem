@@ -3,6 +3,7 @@ using InventoryManagementSystem.Application.PersonItems.Commands.CreatePersonIte
 using InventoryManagementSystem.Application.PersonItems.Commands.DeletePersonItem;
 using InventoryManagementSystem.Application.PersonItems.Commands.UpdatePersonItem;
 using InventoryManagementSystem.Application.PersonItems.Queries.GetPersonItem;
+using InventoryManagementSystem.Application.PersonItems.Queries.GetPersonItemsWithPagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -12,15 +13,15 @@ namespace InventoryManagementSystem.WebUI.Controllers
     //[Authorize]
     public class PersonItemsController : ApiControllerBase
     {
-        //[HttpGet]
-        //public async Task<ActionResult<PaginatedList<TodoItemDto>>> GetTodoItemsWithPagination([FromQuery] GetTodoItemsWithPaginationQuery query)
-        //{
-        //    return await Mediator.Send(query);
-        //}
         [HttpGet]
-        public async Task<PersonItemDto> GetPersonItem([FromQuery] GetPersonItemQuery query)
+        public async Task<ActionResult<PaginatedList<PersonItemDto>>> GetPersonItemsWithPagination([FromQuery] GetPersonItemsWithPaginationQuery query)
         {
             return await Mediator.Send(query);
+        }
+        [HttpGet("{id}")]
+        public async Task<PersonItemDto> Get(int id)
+        {
+            return await Mediator.Send(new GetPersonItemQuery() { Id = id});
         }
 
         [HttpPost]

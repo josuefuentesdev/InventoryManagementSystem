@@ -141,16 +141,25 @@
         "tags": [
           "PersonItems"
         ],
-        "operationId": "PersonItems_GetPersonItem",
+        "operationId": "PersonItems_GetPersonItemsWithPagination",
         "parameters": [
           {
-            "name": "Id",
+            "name": "PageNumber",
             "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
             },
             "x-position": 1
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
           }
         ],
         "responses": {
@@ -159,7 +168,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PersonItemDto"
+                  "$ref": "#/components/schemas/PaginatedListOfPersonItemDto"
                 }
               }
             }
@@ -199,6 +208,36 @@
       }
     },
     "/api/PersonItems/{id}": {
+      "get": {
+        "tags": [
+          "PersonItems"
+        ],
+        "operationId": "PersonItems_Get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonItemDto"
+                }
+              }
+            }
+          }
+        }
+      },
       "put": {
         "tags": [
           "PersonItems"
@@ -743,6 +782,37 @@
           "title": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "PaginatedListOfPersonItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/PersonItemDto"
+            }
+          },
+          "pageIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
           }
         }
       },

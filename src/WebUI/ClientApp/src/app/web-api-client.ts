@@ -242,8 +242,9 @@ export class CategoryItemsClient implements ICategoryItemsClient {
 }
 
 export interface IPersonItemsClient {
-    getPersonItem(id: number | undefined): Observable<PersonItemDto>;
+    getPersonItemsWithPagination(pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfPersonItemDto>;
     create(command: CreatePersonItemCommand): Observable<number>;
+    get(id: number): Observable<PersonItemDto>;
     update(id: number, command: UpdatePersonItemCommand): Observable<FileResponse>;
     delete(id: number): Observable<FileResponse>;
 }
@@ -261,12 +262,16 @@ export class PersonItemsClient implements IPersonItemsClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getPersonItem(id: number | undefined): Observable<PersonItemDto> {
+    getPersonItemsWithPagination(pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfPersonItemDto> {
         let url_ = this.baseUrl + "/api/PersonItems?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -278,20 +283,20 @@ export class PersonItemsClient implements IPersonItemsClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetPersonItem(response_);
+            return this.processGetPersonItemsWithPagination(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetPersonItem(<any>response_);
+                    return this.processGetPersonItemsWithPagination(<any>response_);
                 } catch (e) {
-                    return <Observable<PersonItemDto>><any>_observableThrow(e);
+                    return <Observable<PaginatedListOfPersonItemDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PersonItemDto>><any>_observableThrow(response_);
+                return <Observable<PaginatedListOfPersonItemDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetPersonItem(response: HttpResponseBase): Observable<PersonItemDto> {
+    protected processGetPersonItemsWithPagination(response: HttpResponseBase): Observable<PaginatedListOfPersonItemDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -302,7 +307,7 @@ export class PersonItemsClient implements IPersonItemsClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PersonItemDto.fromJS(resultData200);
+            result200 = PaginatedListOfPersonItemDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -310,7 +315,7 @@ export class PersonItemsClient implements IPersonItemsClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PersonItemDto>(<any>null);
+        return _observableOf<PaginatedListOfPersonItemDto>(<any>null);
     }
 
     create(command: CreatePersonItemCommand): Observable<number> {
@@ -363,6 +368,57 @@ export class PersonItemsClient implements IPersonItemsClient {
             }));
         }
         return _observableOf<number>(<any>null);
+    }
+
+    get(id: number): Observable<PersonItemDto> {
+        let url_ = this.baseUrl + "/api/PersonItems/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<PersonItemDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PersonItemDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<PersonItemDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PersonItemDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PersonItemDto>(<any>null);
     }
 
     update(id: number, command: UpdatePersonItemCommand): Observable<FileResponse> {
@@ -1215,6 +1271,70 @@ export class UpdateCategoryItemCommand implements IUpdateCategoryItemCommand {
 export interface IUpdateCategoryItemCommand {
     id?: number;
     title?: string | undefined;
+}
+
+export class PaginatedListOfPersonItemDto implements IPaginatedListOfPersonItemDto {
+    items?: PersonItemDto[] | undefined;
+    pageIndex?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+
+    constructor(data?: IPaginatedListOfPersonItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(PersonItemDto.fromJS(item));
+            }
+            this.pageIndex = _data["pageIndex"];
+            this.totalPages = _data["totalPages"];
+            this.totalCount = _data["totalCount"];
+            this.hasPreviousPage = _data["hasPreviousPage"];
+            this.hasNextPage = _data["hasNextPage"];
+        }
+    }
+
+    static fromJS(data: any): PaginatedListOfPersonItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaginatedListOfPersonItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["pageIndex"] = this.pageIndex;
+        data["totalPages"] = this.totalPages;
+        data["totalCount"] = this.totalCount;
+        data["hasPreviousPage"] = this.hasPreviousPage;
+        data["hasNextPage"] = this.hasNextPage;
+        return data; 
+    }
+}
+
+export interface IPaginatedListOfPersonItemDto {
+    items?: PersonItemDto[] | undefined;
+    pageIndex?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
 }
 
 export class PersonItemDto implements IPersonItemDto {
