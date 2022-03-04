@@ -12,7 +12,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class TodoComponent {
 
-    debug = false;
+    debug = true;
 
     vm: TodosVm;
 
