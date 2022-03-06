@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ItemDto, ItemsClient } from "../web-api-client";
+import { ItemDto, ItemsClient, AppFilesClient } from "../web-api-client";
 
 @Component({
   selector: 'app-inventory',
@@ -9,7 +9,9 @@ import { ItemDto, ItemsClient } from "../web-api-client";
 export class InventoryComponent implements OnInit {
 
   items: ItemDto[];
-  constructor(private itemsClient: ItemsClient) { }
+
+  idFile: number;
+  constructor(private itemsClient: ItemsClient, private appFilesClient: AppFilesClient) { }
 
   ngOnInit(): void {
     this.itemsClient.getItemsWithPagination(1, 10).subscribe(
@@ -18,5 +20,20 @@ export class InventoryComponent implements OnInit {
       }
     );
   }
+
+  addFile(event): void {
+    var firstFile = event.target.files[0];
+    this.appFilesClient.create({
+      data: firstFile,
+      fileName: firstFile.name
+    },
+    'Juan',
+    ).subscribe(
+      result => {
+        this.idFile = result;
+      }
+    );
+  }
+
 
 }

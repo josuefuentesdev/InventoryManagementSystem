@@ -2,6 +2,14 @@
     <div class="col-sm-4">
         <h2>Category</h2>
     </div>
+    <div class="col-sm-4">
+        <button class="btn btn-default float-right" title="Add List..."
+        >
+        <!-- (click)="showNewListModal(newListModalTemplate)"> -->
+          <!-- <fa-icon [icon]="faPlus"></fa-icon> -->
+          Add team member
+        </button>
+    </div>
     <div class="col-sm-8">
         <div class="card-columns" id="inventory-items">
             <ng-container *ngFor="let item of items">
@@ -14,6 +22,11 @@
                 </div>
             </ng-container>
         </div>
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Default file input example</label>
+            <input class="form-control" type="file" id="formFile"
+                (change)="addFile($event)">
+          </div>
 <!-- 
         <ul id="items" class="card-group">
             <li class="" *ngFor="let item of items">

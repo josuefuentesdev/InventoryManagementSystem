@@ -41,6 +41,9 @@ namespace InventoryManagementSystem.Infrastructure.Persistence
 
         public DbSet<Item> Items { get; set; }
 
+        public DbSet<AppFile> AppFiles { get; set; }
+
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             foreach (var entry in ChangeTracker.Entries<AuditableEntity>())

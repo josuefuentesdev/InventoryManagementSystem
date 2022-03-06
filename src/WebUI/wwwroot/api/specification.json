@@ -6,6 +6,47 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/AppFiles": {
+      "post": {
+        "tags": [
+          "AppFiles"
+        ],
+        "operationId": "AppFiles_Create",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "File": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  },
+                  "CreatedBy": {
+                    "type": "string",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/CategoryItems": {
       "get": {
         "tags": [
