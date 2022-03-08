@@ -1,8 +1,8 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { ItemDto, ItemsClient, AppFilesClient, CreateItemCommand } from "../web-api-client";
+import { ItemDto, ItemsClient, AppFilesClient, CreateItemCommand, PersonItemDto } from "../web-api-client";
 import { FormControl, FormBuilder } from '@angular/forms';
-
+import { ModalSelectPersonComponent } from "../modal-select-person/modal-select-person.component";
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
@@ -18,7 +18,7 @@ export class InventoryComponent implements OnInit {
     name : [''],
     price : [],
     notes : [''],
-    personItemId : [''],
+    personItemId : [],
   });
 
   idFile: number;
@@ -48,7 +48,12 @@ export class InventoryComponent implements OnInit {
     }).subscribe(
       result => {
         console.log(result);
-        
+        this.newItemModalTemplate.hide();
+        this.itemsClient.getItemsWithPagination(1, 10).subscribe(
+          result => {
+            this.items = result.items;
+          }
+        );
       }
     )
   }
@@ -73,5 +78,10 @@ export class InventoryComponent implements OnInit {
     setTimeout(() => document.getElementById("title").focus(), 250);
   }
 
+  updatePersonIdSelected(personItemDto: PersonItemDto): void {
+    this.createItemForm.patchValue({
+      personItemId: personItemDto.id
+    });
+  }
 
 }

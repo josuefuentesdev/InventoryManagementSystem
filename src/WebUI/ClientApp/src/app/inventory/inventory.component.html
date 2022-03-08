@@ -15,8 +15,7 @@
                 <div class="card">
                     <img class="card-img-top" src="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4AQrc?ver=07aa&q=90&m=6&h=200&w=200&b=%23FFFFFFFF&o=f&aim=true" alt="Card">
                     <div class="card-body">
-                        <h5 class="card-title">{{ item.title }}</h5>
-                        <p class="card-text">Lorem ipsum dolor sit.</p>
+                        <h5 class="card-title">{{ item.name }}</h5>
                     </div>
                 </div>
             </ng-container>
@@ -62,8 +61,7 @@
                 <input type="text" class="form-control" name="notes" id="notes" formControlName="notes">
             </div>
             <div class="form-group">
-                <label for="personItemId">In use by</label>
-                <input type="text" class="form-control" name="personItemId" id="personItemId" formControlName="personItemId">
+                <app-modal-select-person (personSelectedEvent)="updatePersonIdSelected($event)"></app-modal-select-person>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

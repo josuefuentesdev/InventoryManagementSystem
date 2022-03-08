@@ -18,6 +18,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { TokenComponent } from './token/token.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ModalSelectPersonComponent } from './modal-select-person/modal-select-person.component';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ModalCreateItemComponent } from './modal-create-item/modal-create-item.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     FetchDataComponent,
     TodoComponent,
     TokenComponent,
-    InventoryComponent
+    InventoryComponent,
+    ModalSelectPersonComponent,
+    ModalCreateItemComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -39,7 +44,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     BrowserAnimationsModule,
     ModalModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PaginationModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

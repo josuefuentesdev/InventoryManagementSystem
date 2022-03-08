@@ -1,0 +1,66 @@
+<div>
+    <div class="card">
+        <div class="row no-gutters">
+            <div class="col-sm-2 d-flex align-items-center justify-content-center">
+                <img class="d-block" src='https://dummyimage.com/50.gif' alt='' width="50px" height="50px"/>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h5 class="card-title">{{ personItemSelected == null ? 'Not assigned' : personItemSelected.name + ' ' + personItemSelected.lastName }}</h5>
+                        <!-- <p>{{ personItemSelected.name ?? 'No asignado' }}</p> -->
+                    </div>
+                    <div class="col-sm-6 d-flex align-items-center justify-content-center">
+                        <button class="btn btn-primary d-flex"
+                        (click)="showPersonModal(selectPersonModalTemplate)">
+                            Assign
+                            <fa-icon class="d-block ml-2" [icon]="userIcon"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+
+    </div>
+</div>
+
+
+<ng-template #selectPersonModalTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">Select Person</h4>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive">
+            <table class="table">
+                <!-- <caption>List of persons</caption> -->
+                <thead>
+                  <tr>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Location</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let personItem of currentPageListPerson" (click)="selectPerson(personItem)">
+                        <td>{{ personItem.name }}</td>
+                        <td>{{ personItem.lastName }}</td>
+                        <td>NY</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-12">
+              <pagination
+                [totalItems]="totalItems"
+                [(ngModel)]="currentPage"
+                (pageChanged)="showPage($event)"></pagination>
+            </div>
+        </div>
+    </div>
+    
+    <!-- <div class="modal-footer"> -->
+    <!-- </div> -->
+</ng-template>
