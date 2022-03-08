@@ -19,6 +19,8 @@ namespace InventoryManagementSystem.Domain.Entities
         public string Name { get; set; }
         public string LastName { get; set; }
 
+        public IList<Item> Items { get; set; }
+
         //public string Note { get; set; }
 
         //public PriorityLevel Priority { get; set; }

@@ -34,7 +34,7 @@ namespace InventoryManagementSystem.Application.Items.Queries.GetItemsWithPagina
         public async Task<PaginatedList<ItemDto>> Handle(GetItemsWithPaginationQuery request, CancellationToken cancellationToken)
         {
             return await _context.Items
-                .OrderBy(x => x.Title)
+                .OrderBy(x => x.Name)
                 .ProjectTo<ItemDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }

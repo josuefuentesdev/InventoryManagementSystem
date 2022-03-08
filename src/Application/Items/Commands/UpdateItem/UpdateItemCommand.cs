@@ -14,7 +14,7 @@ namespace InventoryManagementSystem.Application.Items.Commands.UpdateItem
     public class UpdateItemCommand : IRequest
     {
         public int Id { get; set; }
-        public string Title { get; set; }
+        public string Name { get; set; }
 
     }
 
@@ -36,7 +36,7 @@ namespace InventoryManagementSystem.Application.Items.Commands.UpdateItem
                 throw new NotFoundException(nameof(Item), request.Id);
             }
 
-            entity.Title = request.Title;
+            entity.Name = request.Name;
 
             await _context.SaveChangesAsync(cancellationToken);
 

@@ -4,10 +4,9 @@
     </div>
     <div class="col-sm-4">
         <button class="btn btn-default float-right" title="Add List..."
-        >
-        <!-- (click)="showNewListModal(newListModalTemplate)"> -->
+        (click)="showNewItemModal(newItemModalTemplate)">
           <!-- <fa-icon [icon]="faPlus"></fa-icon> -->
-          Add team member
+          Add item
         </button>
     </div>
     <div class="col-sm-8">
@@ -40,3 +39,33 @@
         </ul> -->
     </div>
 </div>
+
+<ng-template #newItemModalTemplate>
+    <div class="modal-header clearfix">
+        <h4 class="modal-title float-left">New Item</h4>
+        <button class="close float-right" aria-label=Close>
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="createItemForm" (ngSubmit)="createItem()">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" name="name" id="name" formControlName="name">
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="text" class="form-control" name="price" id="price" formControlName="price">
+            </div>
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <input type="text" class="form-control" name="notes" id="notes" formControlName="notes">
+            </div>
+            <div class="form-group">
+                <label for="personItemId">In use by</label>
+                <input type="text" class="form-control" name="personItemId" id="personItemId" formControlName="personItemId">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</ng-template>

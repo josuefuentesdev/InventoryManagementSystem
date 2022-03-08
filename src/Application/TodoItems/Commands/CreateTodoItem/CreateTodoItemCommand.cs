@@ -10,7 +10,6 @@ namespace InventoryManagementSystem.Application.TodoItems.Commands.CreateTodoIte
     public class CreateTodoItemCommand : IRequest<int>
     {
         public int ListId { get; set; }
-
         public string Title { get; set; }
     }
 

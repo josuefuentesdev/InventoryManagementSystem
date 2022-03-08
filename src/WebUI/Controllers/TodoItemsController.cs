@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace InventoryManagementSystem.WebUI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class TodoItemsController : ApiControllerBase
     {
         [HttpGet]

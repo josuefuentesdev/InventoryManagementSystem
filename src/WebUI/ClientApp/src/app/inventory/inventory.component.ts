@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ItemDto, ItemsClient, AppFilesClient } from "../web-api-client";
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { ItemDto, ItemsClient, AppFilesClient, CreateItemCommand } from "../web-api-client";
+import { FormControl, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-inventory',
@@ -10,8 +12,22 @@ export class InventoryComponent implements OnInit {
 
   items: ItemDto[];
 
+  newItemModalTemplate: BsModalRef;
+
+  createItemForm = this.formBuilder.group({
+    name : [''],
+    price : [],
+    notes : [''],
+    personItemId : [''],
+  });
+
   idFile: number;
-  constructor(private itemsClient: ItemsClient, private appFilesClient: AppFilesClient) { }
+  constructor(
+    private itemsClient: ItemsClient,
+    private appFilesClient: AppFilesClient,
+    private modalService: BsModalService,
+    private formBuilder: FormBuilder,
+    ) { }
 
   ngOnInit(): void {
     this.itemsClient.getItemsWithPagination(1, 10).subscribe(
@@ -20,6 +36,23 @@ export class InventoryComponent implements OnInit {
       }
     );
   }
+
+  createItem(): void {
+    console.log(this.createItemForm.value);
+    
+    this.itemsClient.create(<CreateItemCommand>{
+      name: this.createItemForm.value.name,
+      price: this.createItemForm.value.price,
+      notes: this.createItemForm.value.notes,
+      personItemId: this.createItemForm.value.personItemId,
+    }).subscribe(
+      result => {
+        console.log(result);
+        
+      }
+    )
+  }
+
 
   addFile(event): void {
     var firstFile = event.target.files[0];
@@ -33,6 +66,11 @@ export class InventoryComponent implements OnInit {
         this.idFile = result;
       }
     );
+  }
+
+  showNewItemModal(template: TemplateRef<any>): void {
+    this.newItemModalTemplate = this.modalService.show(template);
+    setTimeout(() => document.getElementById("title").focus(), 250);
   }
 
 

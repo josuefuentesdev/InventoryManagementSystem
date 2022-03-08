@@ -1695,7 +1695,7 @@ export interface IPaginatedListOfItemDto {
 
 export class ItemDto implements IItemDto {
     id?: number;
-    title?: string | undefined;
+    name?: string | undefined;
 
     constructor(data?: IItemDto) {
         if (data) {
@@ -1709,7 +1709,7 @@ export class ItemDto implements IItemDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.title = _data["title"];
+            this.name = _data["name"];
         }
     }
 
@@ -1723,18 +1723,21 @@ export class ItemDto implements IItemDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["title"] = this.title;
+        data["name"] = this.name;
         return data; 
     }
 }
 
 export interface IItemDto {
     id?: number;
-    title?: string | undefined;
+    name?: string | undefined;
 }
 
 export class CreateItemCommand implements ICreateItemCommand {
-    title?: string | undefined;
+    name?: string | undefined;
+    price?: number;
+    notes?: string | undefined;
+    personItemId?: number;
 
     constructor(data?: ICreateItemCommand) {
         if (data) {
@@ -1747,7 +1750,10 @@ export class CreateItemCommand implements ICreateItemCommand {
 
     init(_data?: any) {
         if (_data) {
-            this.title = _data["title"];
+            this.name = _data["name"];
+            this.price = _data["price"];
+            this.notes = _data["notes"];
+            this.personItemId = _data["personItemId"];
         }
     }
 
@@ -1760,18 +1766,24 @@ export class CreateItemCommand implements ICreateItemCommand {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["title"] = this.title;
+        data["name"] = this.name;
+        data["price"] = this.price;
+        data["notes"] = this.notes;
+        data["personItemId"] = this.personItemId;
         return data; 
     }
 }
 
 export interface ICreateItemCommand {
-    title?: string | undefined;
+    name?: string | undefined;
+    price?: number;
+    notes?: string | undefined;
+    personItemId?: number;
 }
 
 export class UpdateItemCommand implements IUpdateItemCommand {
     id?: number;
-    title?: string | undefined;
+    name?: string | undefined;
 
     constructor(data?: IUpdateItemCommand) {
         if (data) {
@@ -1785,7 +1797,7 @@ export class UpdateItemCommand implements IUpdateItemCommand {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.title = _data["title"];
+            this.name = _data["name"];
         }
     }
 
@@ -1799,14 +1811,14 @@ export class UpdateItemCommand implements IUpdateItemCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["title"] = this.title;
+        data["name"] = this.name;
         return data; 
     }
 }
 
 export interface IUpdateItemCommand {
     id?: number;
-    title?: string | undefined;
+    name?: string | undefined;
 }
 
 export class PaginatedListOfPersonItemDto implements IPaginatedListOfPersonItemDto {

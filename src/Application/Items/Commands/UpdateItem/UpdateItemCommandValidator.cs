@@ -11,7 +11,7 @@ namespace InventoryManagementSystem.Application.Items.Commands.UpdateItem
     {
         public UpdateItemCommandValidator()
         {
-            RuleFor(v => v.Title)
+            RuleFor(v => v.Name)
                 .MaximumLength(200)
                 .NotEmpty();
 

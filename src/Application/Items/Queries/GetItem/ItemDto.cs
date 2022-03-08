@@ -11,6 +11,6 @@ namespace InventoryManagementSystem.Application.Items.Queries.GetItem
     public class ItemDto : IMapFrom<Item>
     {
         public int Id { get; set; }
-        public string Title { get; set; }
+        public string Name { get; set; }
     }
 }

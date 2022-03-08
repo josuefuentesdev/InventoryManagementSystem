@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace InventoryManagementSystem.WebUI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class TodoListsController : ApiControllerBase
     {
         [HttpGet]

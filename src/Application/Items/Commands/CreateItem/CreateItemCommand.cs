@@ -12,7 +12,10 @@ namespace InventoryManagementSystem.Application.Items.Commands.CreateItem
 {
     public class CreateItemCommand : IRequest<int>
     {
-        public string Title { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public string Notes { get; set; }
+        public int PersonItemId { get; set; }
     }
 
     public class CreateItemCommandHandler : IRequestHandler<CreateItemCommand, int>
@@ -28,7 +31,10 @@ namespace InventoryManagementSystem.Application.Items.Commands.CreateItem
         {
             var entity = new Item
             {
-                Title = request.Title,
+                Name = request.Name,
+                Price = request.Price,
+                Notes = request.Notes,
+                PersonItemId = request.PersonItemId,
             };
 
             _context.Items.Add(entity);

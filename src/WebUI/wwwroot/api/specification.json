@@ -577,12 +577,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -613,12 +608,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/api/TodoItems/{id}": {
@@ -663,12 +653,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -699,12 +684,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/api/TodoItems/UpdateItemDetails": {
@@ -748,12 +728,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/api/TodoLists": {
@@ -773,12 +748,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -809,12 +779,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/api/TodoLists/{id}": {
@@ -847,12 +812,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       },
       "put": {
         "tags": [
@@ -895,12 +855,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -931,12 +886,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/api/WeatherForecast": {
@@ -1042,7 +992,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "title": {
+          "name": {
             "type": "string",
             "nullable": true
           }
@@ -1052,9 +1002,21 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "title": {
+          "name": {
             "type": "string",
             "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "personItemId": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -1066,7 +1028,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "title": {
+          "name": {
             "type": "string",
             "nullable": true
           }
