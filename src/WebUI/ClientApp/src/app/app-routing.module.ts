@@ -5,6 +5,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { HomeComponent } from './home/home.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { TeamComponent } from './team/team.component';
 import { TodoComponent } from './todo/todo.component';
 import { TokenComponent } from './token/token.component';
 
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] },
   { path: 'inventory', component: InventoryComponent},
+  { path: 'team', component: TeamComponent},
   { path: 'token', component: TokenComponent, canActivate: [AuthorizeGuard] }
 ];
 

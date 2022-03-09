@@ -21,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ModalSelectPersonComponent } from './modal-select-person/modal-select-person.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ModalCreateItemComponent } from './modal-create-item/modal-create-item.component';
+import { TeamComponent } from './team/team.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ModalCreateItemComponent } from './modal-create-item/modal-create-item.
     TokenComponent,
     InventoryComponent,
     ModalSelectPersonComponent,
-    ModalCreateItemComponent
+    ModalCreateItemComponent,
+    TeamComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
