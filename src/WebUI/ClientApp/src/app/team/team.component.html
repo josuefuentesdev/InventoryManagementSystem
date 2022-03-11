@@ -1,1 +1,29 @@
-<p>team works!</p>
+<div class="row">
+    <div class="col-sm-4">
+        <h2>Team</h2>
+    </div>
+    <div class="col-sm-4">
+        <app-modal-create-item></app-modal-create-item>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <table class="table table-bordered table-striped table-hover"  datatable [dtOptions]="dtOptions">
+            <!-- <caption>List of persons</caption> -->
+            <thead>
+                <tr>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let person of personItems" (click)="selectPerson(person)">
+                        <td>{{ person.name }}</td>
+                        <td>{{ person.lastName }}</td>
+                        <td>NY</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

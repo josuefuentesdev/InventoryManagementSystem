@@ -23,6 +23,8 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ModalCreateItemComponent } from './modal-create-item/modal-create-item.component';
 import { TeamComponent } from './team/team.component';
 
+import {DataTablesModule} from 'angular-datatables';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +37,7 @@ import { TeamComponent } from './team/team.component';
     InventoryComponent,
     ModalSelectPersonComponent,
     ModalCreateItemComponent,
-    TeamComponent
+    TeamComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -47,7 +49,8 @@ import { TeamComponent } from './team/team.component';
     BrowserAnimationsModule,
     ModalModule.forRoot(),
     ReactiveFormsModule,
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    DataTablesModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

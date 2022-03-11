@@ -10,17 +10,17 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 })
 export class ModalSelectPersonComponent implements OnInit {
 
-  personItemSelected: PersonItemDto;
-
   @Output() personSelectedEvent = new EventEmitter<PersonItemDto>();
 
+
+  personItems: PersonItemDto[];
+  dtOptions: DataTables.Settings = {};
+
+  // output
+  personItemSelected: PersonItemDto;
+
+  // ui
   selectPersonModalTemplate: BsModalRef;
-
-  currentPageListPerson : PersonItemDto[];
-
-  totalItems = 0;
-  currentPage = 1;
-
   userIcon = faUser;
 
   constructor(
@@ -31,24 +31,35 @@ export class ModalSelectPersonComponent implements OnInit {
   ngOnInit(): void {
     this.personItemsClient.getPersonItemsWithPagination(1, 10).subscribe(
       result => {
-        this.totalItems = result.totalCount;
-        this.currentPageListPerson = result.items;
-        console.log(result);
+        this.personItems = result.items;
       }
     );
+
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      // pageLength: 10,
+      searching: false,
+      serverSide: true,
+      processing: true,
+      ajax: (dataTablesParameters: any, callback) => {
+        console.log(dataTablesParameters);
+        var pageNumber: number = ~~(dataTablesParameters.start / dataTablesParameters.length) + 1;
+        this.personItemsClient.getPersonItemsWithPagination(pageNumber , dataTablesParameters.length).subscribe(
+          result => {
+            this.personItems = result.items;
+
+            callback({
+              recordsTotal: result.totalCount,
+              recordsFiltered: result.totalCount,
+              data: []
+            });
+          }
+        );
+      },
+      columns: [{ data: 'id' }, { data: 'firstName' }, { data: 'lastName' }]
+    };
   }
 
-  showPage(event: any): void {
-    var page = event.page;
-    this.personItemsClient.getPersonItemsWithPagination(page, 10).subscribe(
-      result => {
-        this.totalItems = result.totalCount;
-        this.currentPage = page;
-        this.currentPageListPerson = result.items;
-        console.log(result);
-      }
-    );
-  }
   showPersonModal(template: TemplateRef<any>): void {
     this.selectPersonModalTemplate = this.modalService.show(template);
     setTimeout(() => document.getElementById("title").focus(), 250);
