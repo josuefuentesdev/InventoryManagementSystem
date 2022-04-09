@@ -24,6 +24,8 @@ import { ModalCreateItemComponent } from './modal-create-item/modal-create-item.
 import { TeamComponent } from './team/team.component';
 
 import {DataTablesModule} from 'angular-datatables';
+import { ModalCreatePersonComponent } from './modal-create-person/modal-create-person.component';
+import { TeamMemberDetailComponent } from './team-member-detail/team-member-detail.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import {DataTablesModule} from 'angular-datatables';
     ModalSelectPersonComponent,
     ModalCreateItemComponent,
     TeamComponent,
+    ModalCreatePersonComponent,
+    TeamMemberDetailComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
