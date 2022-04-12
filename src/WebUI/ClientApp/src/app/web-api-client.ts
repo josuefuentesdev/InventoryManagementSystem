@@ -1889,6 +1889,7 @@ export class PersonItemDto implements IPersonItemDto {
     id?: number;
     name?: string | undefined;
     lastName?: string | undefined;
+    region?: string | undefined;
 
     constructor(data?: IPersonItemDto) {
         if (data) {
@@ -1904,6 +1905,7 @@ export class PersonItemDto implements IPersonItemDto {
             this.id = _data["id"];
             this.name = _data["name"];
             this.lastName = _data["lastName"];
+            this.region = _data["region"];
         }
     }
 
@@ -1919,6 +1921,7 @@ export class PersonItemDto implements IPersonItemDto {
         data["id"] = this.id;
         data["name"] = this.name;
         data["lastName"] = this.lastName;
+        data["region"] = this.region;
         return data; 
     }
 }
@@ -1927,11 +1930,13 @@ export interface IPersonItemDto {
     id?: number;
     name?: string | undefined;
     lastName?: string | undefined;
+    region?: string | undefined;
 }
 
 export class CreatePersonItemCommand implements ICreatePersonItemCommand {
     name?: string | undefined;
     lastName?: string | undefined;
+    region?: string | undefined;
 
     constructor(data?: ICreatePersonItemCommand) {
         if (data) {
@@ -1946,6 +1951,7 @@ export class CreatePersonItemCommand implements ICreatePersonItemCommand {
         if (_data) {
             this.name = _data["name"];
             this.lastName = _data["lastName"];
+            this.region = _data["region"];
         }
     }
 
@@ -1960,6 +1966,7 @@ export class CreatePersonItemCommand implements ICreatePersonItemCommand {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
         data["lastName"] = this.lastName;
+        data["region"] = this.region;
         return data; 
     }
 }
@@ -1967,12 +1974,14 @@ export class CreatePersonItemCommand implements ICreatePersonItemCommand {
 export interface ICreatePersonItemCommand {
     name?: string | undefined;
     lastName?: string | undefined;
+    region?: string | undefined;
 }
 
 export class UpdatePersonItemCommand implements IUpdatePersonItemCommand {
     id?: number;
     name?: string | undefined;
     lastName?: string | undefined;
+    region?: string | undefined;
 
     constructor(data?: IUpdatePersonItemCommand) {
         if (data) {
@@ -1988,6 +1997,7 @@ export class UpdatePersonItemCommand implements IUpdatePersonItemCommand {
             this.id = _data["id"];
             this.name = _data["name"];
             this.lastName = _data["lastName"];
+            this.region = _data["region"];
         }
     }
 
@@ -2003,6 +2013,7 @@ export class UpdatePersonItemCommand implements IUpdatePersonItemCommand {
         data["id"] = this.id;
         data["name"] = this.name;
         data["lastName"] = this.lastName;
+        data["region"] = this.region;
         return data; 
     }
 }
@@ -2011,6 +2022,7 @@ export interface IUpdatePersonItemCommand {
     id?: number;
     name?: string | undefined;
     lastName?: string | undefined;
+    region?: string | undefined;
 }
 
 export class PaginatedListOfTodoItemDto implements IPaginatedListOfTodoItemDto {

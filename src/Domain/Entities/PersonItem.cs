@@ -1,6 +1,7 @@
 ﻿using InventoryManagementSystem.Domain.Common;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,9 +16,11 @@ namespace InventoryManagementSystem.Domain.Entities
         //public TodoList List { get; set; }
 
         //public int ListId { get; set; }
-
+    
         public string Name { get; set; }
         public string LastName { get; set; }
+
+        public string Region { get; set; }
 
         public IList<Item> Items { get; set; }
 

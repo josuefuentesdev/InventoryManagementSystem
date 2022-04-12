@@ -1,8 +1,13 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, OnInit, Output, TemplateRef, EventEmitter } from '@angular/core';
+import { AbstractControl, Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { CreatePersonItemCommand, PersonItemsClient } from "../web-api-client";
+import Countries from "../../assets/countries.json";
 
+interface COUNTRIES {
+  name: string
+  id: string
+}
 @Component({
   selector: 'app-modal-create-person',
   templateUrl: './modal-create-person.component.html',
@@ -10,15 +15,15 @@ import { CreatePersonItemCommand, PersonItemsClient } from "../web-api-client";
 })
 export class ModalCreatePersonComponent implements OnInit {
 
-  
-  createItemForm = this.formBuilder.group({
-    name : [''],
-    price : [],
-    notes : [''],
-    personItemId : [],
-  });
+  @Output() createdEvent = new EventEmitter<void>();
 
-  newPersonItemModalTemplate: BsModalRef;
+  submitted = false;
+
+  countries: COUNTRIES[] = Countries;
+
+  createItemForm: FormGroup;
+
+  newPersonItemModalRef: BsModalRef;
 
   constructor(
     private modalService: BsModalService,
@@ -27,20 +32,28 @@ export class ModalCreatePersonComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.createItemForm = this.formBuilder.group({
+      name : ['', Validators.required],
+      lastName : ['', Validators.required],
+      region: ['', Validators.required],
+    });
   }
 
+  get f(): { [key: string]: AbstractControl } { return this.createItemForm.controls; }
+
   createItem(): void {
-    console.log(this.createItemForm.value);
-    
-    this.personItemsClient.create(<CreatePersonItemCommand>{
-      name: this.createItemForm.value.name,
-      lastName: this.createItemForm.value.lastName,
-    }).subscribe(
-      result => {
-        console.log(result);
-        this.newPersonItemModalTemplate.hide();
-      }
-    )
+    this.submitted = true;
+    if (this.createItemForm.valid) {
+      this.personItemsClient.create(this.createItemForm.value).subscribe(
+        result => {
+          console.log(result);
+          this.createdEvent.emit();
+          this.newPersonItemModalRef.hide();
+        }
+      )
+    } else {
+      this.createItemForm.markAllAsTouched();
+    }
   }
 
   // updatePersonIdSelected(personItemDto: PersonItemDto): void {
@@ -50,7 +63,7 @@ export class ModalCreatePersonComponent implements OnInit {
   // }
 
   showNewItemModal(template: TemplateRef<any>): void {
-    this.newPersonItemModalTemplate = this.modalService.show(
+    this.newPersonItemModalRef = this.modalService.show(
       template,
       Object.assign({}, { keyboard: true, ignoreBackdropClick: false, id: 9996 })
       );

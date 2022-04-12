@@ -3,7 +3,7 @@
         <h2>Team</h2>
     </div>
     <div class="col-sm-4">
-        <app-modal-create-person></app-modal-create-person>
+        <app-modal-create-person (createdEvent)="refreshTable()"></app-modal-create-person>
     </div>
 </div>
 <div class="row">
@@ -14,14 +14,14 @@
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Last Name</th>
-                    <th scope="col">Location</th>
+                    <th scope="col">Country</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let person of personItems" (click)="selectPerson(person)">
                         <td>{{ person.name }}</td>
                         <td>{{ person.lastName }}</td>
-                        <td>NY</td>
+                        <td>{{ person.region }}</td>
                 </tr>
             </tbody>
         </table>

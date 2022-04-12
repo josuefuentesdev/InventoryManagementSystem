@@ -3,6 +3,7 @@ using InventoryManagementSystem.Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,6 +15,8 @@ namespace InventoryManagementSystem.Application.PersonItems.Commands.CreatePerso
     {
         public string Name { get; set; }
         public string LastName { get; set; }
+        public string Region { get; set; }
+
     }
 
     public class CreatePersonItemCommandHandler : IRequestHandler<CreatePersonItemCommand, int>
@@ -27,10 +30,24 @@ namespace InventoryManagementSystem.Application.PersonItems.Commands.CreatePerso
 
         public async Task<int> Handle(CreatePersonItemCommand request, CancellationToken cancellationToken)
             {
+            RegionInfo regionInfo = null;
+            if (request.Region != null)
+            {
+                try
+                {
+                    regionInfo = new RegionInfo(request.Region);
+                }
+                catch (Exception)
+                {
+                    // TODO fluentValidation
+                }
+            }
+
             var entity = new PersonItem
             {
                 Name = request.Name,
-                LastName = request.LastName
+                LastName = request.LastName,
+                Region = regionInfo?.Name,
             };
 
             _context.PersonItems.Add(entity);

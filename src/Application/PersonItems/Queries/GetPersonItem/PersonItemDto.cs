@@ -16,6 +16,8 @@ namespace InventoryManagementSystem.Application.PersonItems.Queries.GetPersonIte
         public string Name { get; set; }
         public string LastName { get; set; }
 
+        public string Region { get; set; }
+
         //public void Mapping(Profile profile)
         //{
         //    profile.CreateMap<TodoItem, PersonItemDto>()

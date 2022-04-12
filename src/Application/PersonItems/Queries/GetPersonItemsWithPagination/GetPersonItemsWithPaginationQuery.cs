@@ -34,7 +34,7 @@ namespace InventoryManagementSystem.Application.PersonItems.Queries.GetPersonIte
         public async Task<PaginatedList<PersonItemDto>> Handle(GetPersonItemsWithPaginationQuery request, CancellationToken cancellationToken)
         {
             return await _context.PersonItems
-                .OrderBy(x => x.LastName)
+                .OrderByDescending(x => x.Created)
                 .ProjectTo<PersonItemDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }

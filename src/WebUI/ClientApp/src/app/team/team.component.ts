@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DataTableDirective } from 'angular-datatables';
 import { PersonItemDto, PersonItemsClient } from "../web-api-client";
 @Component({
   selector: 'app-team',
@@ -6,7 +7,8 @@ import { PersonItemDto, PersonItemsClient } from "../web-api-client";
   styleUrls: ['./team.component.scss']
 })
 export class TeamComponent implements OnInit {
-
+  @ViewChild(DataTableDirective, {static: false})
+  private datatableElement: DataTableDirective;
 
   personItems: PersonItemDto[];
 
@@ -17,11 +19,11 @@ export class TeamComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.personItemsClient.getPersonItemsWithPagination(1, 10).subscribe(
-      result => {
-        this.personItems = result.items;
-      }
-    );
+    // this.personItemsClient.getPersonItemsWithPagination(1, 10).subscribe(
+    //   result => {
+    //     this.personItems = result.items;
+    //   }
+    // );
 
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -48,6 +50,10 @@ export class TeamComponent implements OnInit {
     };
   }
 
+  async refreshTable() {
+    let dtInstance = await this.datatableElement.dtInstance;
+    dtInstance.ajax.reload()
+  }
 
   ngOnDestroy(): void {
   }

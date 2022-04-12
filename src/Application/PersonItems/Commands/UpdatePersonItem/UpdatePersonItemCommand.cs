@@ -2,6 +2,8 @@
 using InventoryManagementSystem.Application.Common.Interfaces;
 using InventoryManagementSystem.Domain.Entities;
 using MediatR;
+using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,6 +16,9 @@ namespace InventoryManagementSystem.Application.PersonItems.Commands.UpdatePerso
         public string Name { get; set; }
 
         public string LastName { get; set; }
+
+        public string Region { get; set; }
+
 
     }
 
@@ -35,8 +40,25 @@ namespace InventoryManagementSystem.Application.PersonItems.Commands.UpdatePerso
                 throw new NotFoundException(nameof(PersonItem), request.Id);
             }
 
+            RegionInfo regionInfo = null;
+            if (request.Region != null)
+            {
+                try
+                {
+                    regionInfo = new RegionInfo(request.Region);
+                }
+                catch (Exception)
+                {
+                    // TODO fluentValidation
+                }
+            }
+
             entity.Name = request.Name;
             entity.LastName = request.LastName;
+            if (request?.Region != null)
+            {
+                entity.Region = request.Region;
+            }
 
             await _context.SaveChangesAsync(cancellationToken);
 

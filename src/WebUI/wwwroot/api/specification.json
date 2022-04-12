@@ -1080,6 +1080,10 @@
           "lastName": {
             "type": "string",
             "nullable": true
+          },
+          "region": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -1092,6 +1096,10 @@
             "nullable": true
           },
           "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "region": {
             "type": "string",
             "nullable": true
           }
@@ -1110,6 +1118,10 @@
             "nullable": true
           },
           "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "region": {
             "type": "string",
             "nullable": true
           }
