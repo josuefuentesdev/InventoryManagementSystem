@@ -1,62 +1,43 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { DataTableDirective } from 'angular-datatables';
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { DataTableDirective } from "angular-datatables";
+import { Subject } from "rxjs";
 import { PersonItemDto, PersonItemsClient } from "../web-api-client";
 @Component({
-  selector: 'app-team',
-  templateUrl: './team.component.html',
-  styleUrls: ['./team.component.scss']
+  selector: "app-team",
+  templateUrl: "./team.component.html",
+  styleUrls: ["./team.component.scss"],
 })
-export class TeamComponent implements OnInit {
-  @ViewChild(DataTableDirective, {static: false})
-  private datatableElement: DataTableDirective;
-
-  personItems: PersonItemDto[];
-
+export class TeamComponent implements OnInit, OnDestroy {
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
+  personItems: PersonItemDto[] = [];
+  dtTrigger: Subject<any> = new Subject();
 
-  constructor(
-    private personItemsClient: PersonItemsClient,
-  ) { }
+  constructor(private personItemsClient: PersonItemsClient) {}
 
   ngOnInit(): void {
-    // this.personItemsClient.getPersonItemsWithPagination(1, 10).subscribe(
-    //   result => {
-    //     this.personItems = result.items;
-    //   }
-    // );
-
     this.dtOptions = {
-      pagingType: 'full_numbers',
-      // pageLength: 10,
-      searching: false,
-      serverSide: true,
-      processing: true,
-      ajax: (dataTablesParameters: any, callback) => {
-        console.log(dataTablesParameters);
-        var pageNumber: number = ~~(dataTablesParameters.start / dataTablesParameters.length) + 1;
-        this.personItemsClient.getPersonItemsWithPagination(pageNumber , dataTablesParameters.length).subscribe(
-          result => {
-            this.personItems = result.items;
-
-            callback({
-              recordsTotal: result.totalCount,
-              recordsFiltered: result.totalCount,
-              data: []
-            });
-          }
-        );
-      },
-      columns: [{ data: 'id' }, { data: 'firstName' }, { data: 'lastName' }]
+      pagingType: "full_numbers",
+      // pageLength: 2,
     };
+    this.personItemsClient
+      .getPersonItemsWithPagination(1, 500)
+      .subscribe((result) => {
+        this.personItems = result.items;
+        this.dtTrigger.next();
+      });
   }
 
-  async refreshTable() {
-    let dtInstance = await this.datatableElement.dtInstance;
-    dtInstance.ajax.reload()
+  refreshTable(): void {
+    this.personItemsClient
+      .getPersonItemsWithPagination(undefined, undefined)
+      .subscribe((result) => {
+        this.personItems = result.items;
+      });
   }
 
   ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
   }
-
-
 }
