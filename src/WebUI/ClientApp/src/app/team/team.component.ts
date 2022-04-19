@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { DataTableDirective } from "angular-datatables";
 import { Subject } from "rxjs";
 import { PersonItemDto, PersonItemsClient } from "../web-api-client";
 @Component({
@@ -8,8 +7,6 @@ import { PersonItemDto, PersonItemsClient } from "../web-api-client";
   styleUrls: ["./team.component.scss"],
 })
 export class TeamComponent implements OnInit, OnDestroy {
-  @ViewChild(DataTableDirective)
-  dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   personItems: PersonItemDto[] = [];
   dtTrigger: Subject<any> = new Subject();
